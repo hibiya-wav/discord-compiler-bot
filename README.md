@@ -28,7 +28,10 @@ Here's a simple example for a request to send that the bot can read and then pro
     print("Hi There!")
     ```
 
-If you wish for your compilation to return in your DM's, use `?!compile` instead of `!compile`.
+If you wish for your compilation to return in your DM's, use `.!compile` instead of `!compile`.
+You can also verify the available languages for compilation with this bot using `?compile`. To recieve the language options in your DM's, use `.?Compile`
+
+Sidenote: Please ensure that your Java class is named "Main" and declared as public when compiling in Java.
 
 ## Hosting
 If you want to host this bot on your own local machine or server, follow these steps:
@@ -36,7 +39,7 @@ If you want to host this bot on your own local machine or server, follow these s
 1. Copy the repository to your desired location.
 2. Fill out the fields in `env.example` and save the file as `.env`.
    - You will need a Discord API Key and a JDOODLE API Key, which you can obtain for free.
-3. Install any missing requirements listed in `requirements.txt`, as well as the latest Java, GCC, Bash versions.
+3. Ensure all necessary dependencies listed in `requirements.txt` are installed, including the latest versions of Python, Java, GCC, and Bash. Download [Shellcheck](https://github.com/koalaman/shellcheck) for formatted bash syntax checking.
 4. Run `main.py` to start the bot.
 
 ## Updates

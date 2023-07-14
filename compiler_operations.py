@@ -44,6 +44,7 @@ def python_checker(input_code, language, version_flag):
             os.remove("tempFile.py")
             return '**Output:** ' + error_message
         else:
+            os.remove("tempFile.py")
             return API_CALL(input_code, language, version_flag)
     except subprocess.CalledProcessError as e:
         error_output = f"Error occurred (return code {e.returncode}):\n"
@@ -69,6 +70,7 @@ def cpp_checker(input_code, language, version_flag):
             os.remove("tempFile.cpp")
             return '**Output:** ' + error_message
         else:
+            os.remove("tempFile.cpp")
             return API_CALL(input_code, language, version_flag)
     except subprocess.CalledProcessError as e:
         error_output = f"Error occurred (return code {e.returncode}):\n"
@@ -123,6 +125,7 @@ def bash_checker(input_code, language, version_flag):
             os.remove("tempFile.sh")
             return '**Output:** ' + error_message
         else:
+            os.remove("tempFile.sh")
             return API_CALL(input_code, language, version_flag)
     except subprocess.CalledProcessError as e:
         error_output = f"Error occurred (return code {e.returncode}):\n"
@@ -163,4 +166,4 @@ def compileInfo(language: str, input_code: str):
         return bash_checker(input_code, language, version_flag)
     else:
         return '**Output:**\n```Unsupported language.\nIf you wish to add any additional support for any pre-existing ' \
-               'or your own language, check out [insert github link]\n```'
+               'or your own language, check out: https://github.com/hibiya-wav/discord-compiler-bot\n```'

@@ -1,3 +1,2 @@
 #!/bin/bash
-
-python3 tempFile.py
+python3 -m py_compile tempFile.py
