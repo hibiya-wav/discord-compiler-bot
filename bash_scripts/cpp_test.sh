@@ -1,2 +1,2 @@
 #!/bin/bash
-gcc -fsyntax-only tempFile.cpp
+gcc -fsyntax-only code.cpp

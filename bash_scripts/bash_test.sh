@@ -1,2 +1,2 @@
 #!/bin/bash
-shellcheck tempFile.sh
+shellcheck code.sh

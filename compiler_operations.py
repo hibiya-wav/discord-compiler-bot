@@ -9,6 +9,16 @@ load_dotenv()
 CLIENT_ID = os.getenv("JDOODLE_CLIENT_ID")
 CLIENT_SECRET = os.getenv("JDOODLE_CLIENT_SECRET")
 
+'''
+Debugging procedure, usually when dealing with debugging, we can get some artifact files not being deleted, this 
+script helps take care of that by running when dealing with the bot inputs into discord.
+'''
+try:
+    subprocess.run(["bash_scripts/fileCheck.sh"])
+except subprocess.CalledProcessError as e:
+    # any error returns should not be seen by the user. Only devs.
+    print("Check fileCheck.sh, error with pre-processing file-handling.") 
+
 
 def API_CALL(input_code, language, version_flag):
     api_url = "https://api.jdoodle.com/v1/execute"
@@ -28,7 +38,7 @@ def API_CALL(input_code, language, version_flag):
 
 
 def python_checker(input_code, language, version_flag):
-    tempfile = open("tempFile.py", "w")
+    tempfile = open("code.py", "w")
     tempfile.write(input_code)
     tempfile.close()
 
@@ -41,20 +51,21 @@ def python_checker(input_code, language, version_flag):
 
         if error_output:
             error_message = f"(Error occurred)\n```{output_message}```"
-            os.remove("tempFile.py")
+            os.remove("code.py")
             return '**Output:** ' + error_message
         else:
-            os.remove("tempFile.py")
+            os.remove("code.py")
             return API_CALL(input_code, language, version_flag)
     except subprocess.CalledProcessError as e:
+        '''Error handling occurs when the script we run to check syntax fails due to missing dependency'''
         error_output = f"Error occurred (return code {e.returncode}):\n"
-        error_output += "```python\n" + traceback.format_exc() + "```"
-        os.remove("tempFile.py")
+        error_output += "```Python\n" + traceback.format_exc() + "```"
+        os.remove("code.py")
         return '**Output:** ' + error_output
 
 
 def cpp_checker(input_code, language, version_flag):
-    tempfile = open("tempFile.cpp", "w")
+    tempfile = open("code.cpp", "w")
     tempfile.write(input_code)
     tempfile.close()
 
@@ -67,15 +78,16 @@ def cpp_checker(input_code, language, version_flag):
 
         if error_output:
             error_message = f"(Error occurred)\n```{output_message}```"
-            os.remove("tempFile.cpp")
+            os.remove("code.cpp")
             return '**Output:** ' + error_message
         else:
-            os.remove("tempFile.cpp")
+            os.remove("code.cpp")
             return API_CALL(input_code, language, version_flag)
     except subprocess.CalledProcessError as e:
+        '''Error handling occurs when the script we run to check syntax fails due to missing dependency'''
         error_output = f"Error occurred (return code {e.returncode}):\n"
-        error_output += "```python\n" + traceback.format_exc() + "```"
-        os.remove("tempFile.cpp")
+        error_output += "```C++\n" + traceback.format_exc() + "```"
+        os.remove("code.cpp")
         return '**Output:** ' + error_output
 
 
@@ -105,14 +117,15 @@ def java_checker(input_code, language, version_flag):
             delete_java_files()
             return API_CALL(input_code, language, version_flag)
     except subprocess.CalledProcessError as e:
+        '''Error handling occurs when the script we run to check syntax fails due to missing dependency'''
         error_output = f"Error occurred (return code {e.returncode}):\n"
-        error_output += "```python\n" + traceback.format_exc() + "```"
+        error_output += "```Java\n" + traceback.format_exc() + "```"
         delete_java_files()
         return '**Output:** ' + error_output
 
 
 def bash_checker(input_code, language, version_flag):
-    tempfile = open("tempFile.sh", "w")
+    tempfile = open("code.sh", "w")
     tempfile.write(input_code)
     tempfile.close()
 
@@ -122,15 +135,16 @@ def bash_checker(input_code, language, version_flag):
 
         if len(output) != 0:  # output only takes in information if the input source code is incorrect in bash. returns nothing if process is OK/0
             error_message = f"(Error occurred)\n```{output}```"
-            os.remove("tempFile.sh")
+            os.remove("code.sh")
             return '**Output:** ' + error_message
         else:
-            os.remove("tempFile.sh")
+            os.remove("code.sh")
             return API_CALL(input_code, language, version_flag)
     except subprocess.CalledProcessError as e:
+        '''Error handling occurs when the script we run to check syntax fails due to missing dependency'''
         error_output = f"Error occurred (return code {e.returncode}):\n"
-        error_output += "```python\n" + traceback.format_exc() + "```"
-        os.remove("tempFile.sh")
+        error_output += "```Bash\n" + traceback.format_exc() + "```"
+        os.remove("code.sh")
         return '**Output:** ' + error_output
 
 
@@ -158,7 +172,6 @@ def compileInfo(language: str, input_code: str):
         language = "java"
         version_flag = "4"
         return java_checker(input_code, language, version_flag)
-
     elif language.lower() == "bash":
         input_code = formatter(input_code)
         language = "bash"
