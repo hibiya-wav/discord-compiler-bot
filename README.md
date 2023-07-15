@@ -31,7 +31,7 @@ Here's a simple example for a request to send that the bot can read and then pro
 If you wish for your compilation to return in your DM's, use `.!compile` instead of `!compile`.
 You can also verify the available languages for compilation with this bot using `?compile`. To recieve the language options in your DM's, use `.?Compile`
 
-Sidenote: Please ensure that your Java class is named "Main" and declared as public when compiling in Java.
+Sidenote: Please ensure that your Java class is named "Main" and declared as public when compiling in Java. When recieving an error from your code when compiling using the bot, your code will be addressed as `code.<language-format>` unless it is Java (`Main.java`).
 
 ## Hosting
 If you want to host this bot on your own local machine or server, follow these steps:
